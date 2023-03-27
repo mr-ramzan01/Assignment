@@ -11,6 +11,7 @@ export default function Home({ data }) {
   const [pokedata, setPokedata] = useState();
   const [search, setSearch] = useState("");
   const [err, setErr] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const moreData = async () => {
     setPage((prev) => prev + 1);
@@ -29,11 +30,14 @@ export default function Home({ data }) {
 
   const handleSubmit = async () => {
     try {
+      setLoading(true);
       let res = await axios.get(`https://pokeapi.co/api/v2/pokemon/${search}`);
       setPokedata(res.data.forms[0]);
       setSearch("");
+      setLoading(false);
     } catch (err) {
       setPokedata([]);
+      setLoading(false);
       setErr("No Results Found for this query !");
     }
   };
@@ -75,7 +79,9 @@ export default function Home({ data }) {
           </button>
         </div>
         <div className="grid grid-cols-5 lg:grid-cols-4 md:grid-col-3 sm:grid-col-2 md:gap-3 gap-4 p-4">
-          {!pokedata ? (
+          {loading ? (
+            <div className="w-[100vw] text-white text-center">Loading...</div>
+          ) : !pokedata ? (
             pokemon?.results?.map((el) => (
               <Link key={el.name} href={`/${el.name}`}>
                 <Card name={el.name} url={el.url} />
@@ -89,7 +95,7 @@ export default function Home({ data }) {
             </Link>
           )}
         </div>
-        {!pokedata && (
+        {!pokedata && loading==false && (
           <div className="flex justify-center w-[fit-content] m-[auto] gap-3 mb-5">
             <button
               className="p-3 px-10 rounded-[10px] bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-[white] transition-all duration-300 hover:bg-[teal]"
