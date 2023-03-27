@@ -2,21 +2,22 @@ import React from "react";
 import Progress from "./progress";
 
 const SingleCard = ({ data }) => {
-  console.log(data);
   return (
     <div className="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 border-solid border-[1px] border-gray gap-[20px] flex flex-row p-4 rounded-[10px] font-sans m-[20px] transition-all duration-300 cursor-pointer shadow-md hover:shadow-lg">
+      {/* Showing all images of pokemon */}
       <div className="border-solid border-[1px] border-gray rounded-[10px] flex justify-center items-center w-[40%]">
         <div>
           <div>
-            <img className="" src={data.sprites.front_default} alt="" />
-            <img className="" src={data.sprites.back_default} alt="" />
+            <img src={data.sprites.front_default} alt="" />
+            <img src={data.sprites.back_default} alt="" />
           </div>
           <div>
-            <img className="" src={data.sprites.front_shiny} alt="" />
-            <img className="" src={data.sprites.back_shiny} alt="" />
+            <img src={data.sprites.front_shiny} alt="" />
+            <img src={data.sprites.back_shiny} alt="" />
           </div>
         </div>
       </div>
+      {/* Showing details of pokemon */}
       <div className="w-full border-solid border-[1px] border-gray rounded-[10px] p-3">
         <h3 className="  w-[fit-content] text-[30px] font-sans">
           {data.name}
@@ -64,6 +65,7 @@ const SingleCard = ({ data }) => {
           </h5>
         </div>
         <div className="">
+          {/* Showing stats in different fields */}
           <h3 className="text-[20px] font-medium">Stats: </h3>
           <div className="p-2">
             {data.stats?.map((el) => (

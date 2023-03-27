@@ -13,6 +13,7 @@ export default function Home({ data }) {
   const [err, setErr] = useState("");
   const [loading, setLoading] = useState(false);
 
+  // Fetching next data for pagination
   const moreData = async () => {
     setPage((prev) => prev + 1);
     let res = await axios.get(
@@ -20,6 +21,8 @@ export default function Home({ data }) {
     );
     setPokemon(res.data);
   };
+
+  // Fetching previous data for pagination
   const prevData = async () => {
     setPage((prev) => prev - 1);
     let res = await axios.get(
@@ -28,6 +31,7 @@ export default function Home({ data }) {
     setPokemon(res.data);
   };
 
+  // Searching the pokemon and fetching result
   const handleSubmit = async () => {
     try {
       setLoading(true);
@@ -42,6 +46,7 @@ export default function Home({ data }) {
     }
   };
 
+  // updating the state on every input change
   const handleInputChange = async (e) => {
     setSearch(e.target.value);
     if (e.target.value === "") {
@@ -61,6 +66,8 @@ export default function Home({ data }) {
             onChange={async (e) => {
               handleInputChange(e);
             }}
+
+            // adding enter button functionality
             onKeyUp={async (e) => {
               if (e?.code === "Enter") {
                 handleSubmit();
@@ -95,6 +102,7 @@ export default function Home({ data }) {
             </Link>
           )}
         </div>
+        {/* pagination buttons */}
         {!pokedata && loading==false && (
           <div className="flex justify-center w-[fit-content] m-[auto] gap-3 mb-5">
             <button
@@ -121,9 +129,11 @@ export default function Home({ data }) {
   );
 }
 
+// Fetching data before mounting the Home page
 export const getStaticProps = async () => {
   let { data } = await axios.get(`https://pokeapi.co/api/v2/pokemon`);
 
+  // Sending data as a props
   return {
     props: {
       data,
